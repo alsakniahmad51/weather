@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather/core/constant/strings.dart';
 import 'package:weather/features/home/presentation/manager/cubit/weather_cubit.dart';
+import 'package:weather/features/home/presentation/widgets/bottom_sheet_item.dart';
 import 'package:weather/features/home/presentation/widgets/forecast_detailes.dart';
 
 Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
@@ -66,19 +67,28 @@ Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
                       children: [
                         Tab(
                           child: ForecastDetailes(
-                            image: "assets/images/sun.png",
-                            temp:
-                                "${state.weather[0].hours[0]['temp_c'].toString().split(".")[0]}",
-                            time:
-                                "${state.weather[0].hours[0]['time'].toString().split(" ")[1]}",
+                            itemCount: 24,
+                            itemBuilder: (context, index) {
+                              return BottomSheetItem(
+                                  time:
+                                      "${state.weather[0].hours[index]['time'].toString().split(" ")[1]}",
+                                  image: "assets/images/sun.png",
+                                  temp:
+                                      "${state.weather[0].hours[index]['temp_c'].toString().split(".")[0]}");
+                            },
                           ),
                         ),
                         Tab(
                           child: ForecastDetailes(
-                            time: "  SUN",
-                            image: "assets/images/sun.png",
-                            temp:
-                                state.weather[0].temp.toString().split(".")[0],
+                            itemCount: 24,
+                            itemBuilder: (context, index) {
+                              return BottomSheetItem(
+                                  time:
+                                      "${state.weather[0].hours[index]['time'].toString().split(" ")[1]}",
+                                  image: "assets/images/sun.png",
+                                  temp:
+                                      "${state.weather[0].hours[index]['temp_c'].toString().split(".")[0]}");
+                            },
                           ),
                         )
                       ],

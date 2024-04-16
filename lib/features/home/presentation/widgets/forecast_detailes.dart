@@ -9,21 +9,18 @@ import 'package:weather/features/home/presentation/widgets/bottom_sheet_item.dar
 class ForecastDetailes extends StatelessWidget {
   const ForecastDetailes({
     Key? key,
-    required this.time,
-    required this.temp,
-    required this.image,
+    required this.itemBuilder,
+    required this.itemCount,
   }) : super(key: key);
-  final String time;
-  final String temp;
-  final String image;
+
+  final Widget Function(BuildContext, int) itemBuilder;
+  final int itemCount;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 24,
+      itemCount: itemCount,
       scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        return BottomSheetItem(time: time, image: image, temp: temp);
-      },
+      itemBuilder: itemBuilder,
     );
   }
 }
