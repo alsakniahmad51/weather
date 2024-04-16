@@ -17,6 +17,7 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -68,7 +69,10 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
                     ),
                     InkWell(
                       onTap: () {
-                        bottomSheet(context, tabController);
+                        bottomSheet(
+                          context,
+                          tabController,
+                        );
                       },
                       child: Padding(
                         padding: EdgeInsets.only(top: 15.h, right: 10.w),

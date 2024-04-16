@@ -1,10 +1,14 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather/core/constant/strings.dart';
-import 'package:weather/features/home/presentation/widgets/hourly_forcast.dart';
+import 'package:weather/features/home/presentation/manager/cubit/weather_cubit.dart';
+import 'package:weather/features/home/presentation/widgets/forecast_detailes.dart';
 
 Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
   return showMaterialModalBottomSheet(
@@ -23,7 +27,7 @@ Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
             image: AssetImage('assets/images/bottom_sheet1.png'),
           ),
         ),
-        height: 300.h,
+        height: 286.h,
         child: Column(
           children: [
             TabBar(
@@ -54,24 +58,34 @@ Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
             SizedBox(
               height: 250.h,
               width: AppSize.width.w,
-              child: TabBarView(
-                controller: tabController,
-                children: const [
-                  Tab(
-                    child: ForecastDetailes(
-                      image: "assets/images/sun.png",
-                      temp: 19,
-                      time: "12 AM",
-                    ),
-                  ),
-                  Tab(
-                    child: ForecastDetailes(
-                      time: "sunday",
-                      image: "assets/images/sun.png",
-                      temp: 19,
-                    ),
-                  )
-                ],
+              child: BlocBuilder<WeatherCubit, WeatherState>(
+                builder: (context, state) {
+                  if (state is WeatherSuccess) {
+                    return TabBarView(
+                      controller: tabController,
+                      children: [
+                        Tab(
+                          child: ForecastDetailes(
+                            image: "assets/images/sun.png",
+                            temp:
+                                "${state.weather[0].hours[0]['temp_c'].toString().split(".")[0]}",
+                            time:
+                                "${state.weather[0].hours[0]['time'].toString().split(" ")[1]}",
+                          ),
+                        ),
+                        Tab(
+                          child: ForecastDetailes(
+                            time: "  SUN",
+                            image: "assets/images/sun.png",
+                            temp:
+                                state.weather[0].temp.toString().split(".")[0],
+                          ),
+                        )
+                      ],
+                    );
+                  } else
+                    return Text("data");
+                },
               ),
             )
           ],

@@ -6,9 +6,11 @@ class WeatherEntity {
   final double l_temp;
   final String State;
   final String cityName;
+  final List<dynamic> hours;
 
   WeatherEntity(
-      {required this.temp,
+      {required this.hours,
+      required this.temp,
       required this.h_temp,
       required this.l_temp,
       required this.State,

@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +30,8 @@ class HomePage extends StatelessWidget {
             isLoading = true;
           } else if (state is WeatherSuccess || state is WeatherFailure) {
             isLoading = false;
+          } else if (state is WeatherFailure) {
+            log(state.errmessage);
           }
         },
         builder: (context, state) {
@@ -78,7 +82,7 @@ class HomePage extends StatelessWidget {
                         height: 60.h,
                         width: 60.w,
                         'assets/images/error-icon-32.png'),
-                    Text(state.errmessage)
+                    Text(state.errmessage),
                   ],
                 ),
               ),

@@ -29,12 +29,13 @@ class WeatherDetailesPage extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(
-                    width: 110,
+                    width: 150,
                     child: Text(
+                      textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       data.cityName,
                       style: TextStyle(
-                          fontSize: 34.sp, fontWeight: FontWeight.w400),
+                          fontSize: 38.sp, fontWeight: FontWeight.w400),
                     ),
                   ),
                   Text(
