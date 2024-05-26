@@ -26,8 +26,12 @@ class AppRouter {
       case '/weatherDetailes':
         final data = settings.arguments as WeatherEntity;
         return MaterialPageRoute(
-            builder: (context) => WeatherDetailesPage(
-                  data: data,
+            builder: (context) => BlocBuilder<WeatherCubit, WeatherState>(
+                  builder: (context, state) {
+                    return WeatherDetailesPage(
+                      data: data,
+                    );
+                  },
                 ));
     }
   }

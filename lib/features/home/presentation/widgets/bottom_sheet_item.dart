@@ -27,22 +27,34 @@ class BottomSheetItem extends StatelessWidget {
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 9.w, top: 8.h),
-              child: Text(time),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 12.w, top: 43.h),
-              child: Image.asset(
-                image,
-                height: 40.h,
-                width: 40.w,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 17.w, top: 95.h),
-              child: Text(
-                "$temp°",
-                style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w400),
+              padding: EdgeInsets.only(left: 10.w, top: 10.h),
+              child: SizedBox(
+                height: 120.h,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.w, top: 0.h),
+                      child: Text(time),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.w, top: 0.h),
+                      child: Image.asset(
+                        image,
+                        height: 40.h,
+                        width: 40.w,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.w, top: 0.h),
+                      child: Text(
+                        "$temp°",
+                        style: TextStyle(
+                            fontSize: 25.sp, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Image.asset(

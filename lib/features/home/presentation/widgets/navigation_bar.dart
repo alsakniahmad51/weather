@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart' as l;
 import 'package:weather/core/constant/images_path.dart';
 import 'package:weather/core/constant/strings.dart';
+import 'package:weather/features/home/presentation/manager/cubit/weather_cubit.dart';
 import 'package:weather/features/home/presentation/widgets/bottom_sheet.dart';
 
 class CustomNavigationBar extends StatefulWidget {
@@ -45,7 +51,50 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        l.Location location = l.Location();
+
+                        bool _serviceEnabled;
+                        l.PermissionStatus _permissionGranted;
+                        // ignore: unused_local_variable
+                        l.LocationData _locationData;
+
+                        _serviceEnabled = await location.serviceEnabled();
+                        if (!_serviceEnabled) {
+                          _serviceEnabled = await location.requestService();
+                          if (!_serviceEnabled) {
+                            return;
+                          }
+                        }
+
+                        _permissionGranted = await location.hasPermission();
+                        if (_permissionGranted == l.PermissionStatus.denied) {
+                          _permissionGranted =
+                              await location.requestPermission();
+                          if (_permissionGranted !=
+                              l.PermissionStatus.granted) {
+                            return;
+                          }
+                        }
+
+                        _locationData = await location.getLocation();
+
+                        try {
+                          List<Placemark> placemarks =
+                              await placemarkFromCoordinates(
+                            _locationData.latitude!,
+                            _locationData.longitude!,
+                          );
+                          log(placemarks[0].locality.toString());
+                          log("\n\n/n/n/n/n/n/n/n/n/n/n ${placemarks[0].locality}");
+                          BlocProvider.of<WeatherCubit>(context)
+                              .getWeather(placemarks[0].locality!);
+
+                          Navigator.of(context).pop();
+                        } catch (err) {
+                          print(err.toString());
+                        }
+                      },
                       child: Padding(
                         padding: EdgeInsets.only(top: 10.h, right: 0.w),
                         child: SizedBox(
@@ -56,7 +105,9 @@ class _CustomNavigationBarState extends State<CustomNavigationBar>
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                       child: Padding(
                         padding: EdgeInsets.only(top: 0.h, right: 14.w),
                         child: SizedBox(

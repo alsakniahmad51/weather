@@ -14,7 +14,7 @@ AppBar homePageAppBar() {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 240.w),
+            padding: EdgeInsets.only(right: 130.w),
             child: Text(
               'Weather',
               style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w400),

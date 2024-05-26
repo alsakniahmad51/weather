@@ -11,6 +11,7 @@ class ListViewItem extends StatelessWidget {
     super.key,
     required this.data,
   });
+
   final List<WeatherEntity> data;
 
   @override
@@ -42,11 +43,11 @@ class ListViewItem extends StatelessWidget {
                 h_temp: data[0].h_temp.toInt(),
                 l_temp: data[0].l_temp.toInt(),
                 name: data[0].cityName,
-                temp: data[0].temp.toInt(),
+                temp: data[0].currenttemp.toInt(),
               ),
               RightDetailes(
                 status: data[0].State,
-                image: data[0].getImage(),
+                image: data[0].getImage(data[0].State),
               )
             ],
           )

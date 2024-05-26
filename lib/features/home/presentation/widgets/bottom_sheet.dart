@@ -1,6 +1,7 @@
-// ignore_for_file: unnecessary_string_interpolations
+// ignore_for_file: unnecessary_string_interpolations, prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'dart:ui';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,7 @@ Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
               ],
             ),
             SizedBox(
-              height: 250.h,
+              height: 245.h,
               width: AppSize.width.w,
               child: BlocBuilder<WeatherCubit, WeatherState>(
                 builder: (context, state) {
@@ -66,29 +67,38 @@ Future<dynamic> bottomSheet(BuildContext context, TabController tabController) {
                       controller: tabController,
                       children: [
                         Tab(
-                          child: ForecastDetailes(
-                            itemCount: 24,
-                            itemBuilder: (context, index) {
-                              return BottomSheetItem(
-                                  time:
-                                      "${state.weather[0].hours[index]['time'].toString().split(" ")[1]}",
-                                  image: "assets/images/sun.png",
-                                  temp:
-                                      "${state.weather[0].hours[index]['temp_c'].toString().split(".")[0]}");
-                            },
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10.w),
+                            child: ForecastDetailes(
+                              itemCount: 24,
+                              itemBuilder: (context, index) {
+                                return BottomSheetItem(
+                                    time:
+                                        "${state.weather[0].hours[index]['time'].toString().split(" ")[1]}",
+                                    image: state.weather[0].getImage(state
+                                        .weather[0]
+                                        .hours[index]['condition']['text']),
+                                    temp:
+                                        "${state.weather[0].hours[index]['temp_c'].toString().split(".")[0]}");
+                              },
+                            ),
                           ),
                         ),
                         Tab(
-                          child: ForecastDetailes(
-                            itemCount: 24,
-                            itemBuilder: (context, index) {
-                              return BottomSheetItem(
-                                  time:
-                                      "${state.weather[0].hours[index]['time'].toString().split(" ")[1]}",
-                                  image: "assets/images/sun.png",
-                                  temp:
-                                      "${state.weather[0].hours[index]['temp_c'].toString().split(".")[0]}");
-                            },
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10.w),
+                            child: ForecastDetailes(
+                              itemCount: state.weather.length,
+                              itemBuilder: (context, index) {
+                                return BottomSheetItem(
+                                    time:
+                                        " ${state.weather[index].getDayOfWeek(index, state)} ",
+                                    image: state.weather[index].getImage(
+                                        state.weather[index].stateWeekly),
+                                    temp:
+                                        "${state.weather[index].avg_temp.toString().split(".")[0]}");
+                              },
+                            ),
                           ),
                         )
                       ],
